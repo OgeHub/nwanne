@@ -10,15 +10,20 @@ export class AdminsService {
     constructor(@InjectModel (Admin.name) private adminModel: Model<Admin> ) {}
 
     async create(createAdminDto: CreateAdminDto): Promise<Admin> {
-        const admin = await this.findOne(createAdminDto.email)
+        const admin = await this.findByEmail(createAdminDto.email)
         if (admin) throw new BadRequestException('Admin already exist. Kindly login instead')
 
         const newAdmin = new this.adminModel(createAdminDto);
         return newAdmin.save();
       }
 
-    async findOne(email: string): Promise<Admin> {
-        const admin = this.adminModel.findOne({email}).exec();
+    async findById(id: string): Promise<Admin | null> {
+        const admin = this.adminModel.findOne({_id: id}).exec();
+        return admin;
+    }
+
+    async findByEmail(email: string): Promise<Admin | null> {
+        const admin = this.adminModel.findOne({email}).select('+password').exec();
         return admin;
     }
 }

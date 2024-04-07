@@ -10,15 +10,20 @@ export class UsersService {
 
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const user = await this.findOne(createUserDto.email)
+    const user = await this.findByEmail(createUserDto.email)
     if (user) throw new BadRequestException('User already exist. Kindly login instead')
 
     const newUser = new this.userModel(createUserDto);
     return newUser.save();
   }
 
-  async findOne(email: string): Promise<User> {
-    const user = this.userModel.findOne({email}).exec();
+  async findById(id: string): Promise<User | null> {
+    const user = this.userModel.findOne({_id: id}).exec();
     return user;
-}
+  };
+
+  async findByEmail(email: string): Promise<User | null> {
+    const user = this.userModel.findOne({email}).select('+password').exec();
+    return user;
+  };
 }
