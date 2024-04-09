@@ -7,12 +7,11 @@ import {
   import { Request } from 'express';
   import {verifyJWT} from '../common/utils/jwt';
   import { UsersService } from '../users/users.service';
-  import { AdminsService } from '../admins/admins.service';
   
 
   @Injectable()
   export class AuthGuard implements CanActivate {
-    constructor(private usersService: UsersService, private adminsService: AdminsService) {}
+    constructor(private usersService: UsersService) {}
   
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const request = context.switchToHttp().getRequest();
@@ -26,14 +25,8 @@ import {
         const verifiedToken = await verifyJWT(token);
 
         // find user 
-        const {id, role} = verifiedToken;
-
-        let currentUser: any
-        if (role === 'user') {
-            currentUser = await this.usersService.findById(id)
-        } else if (role === 'admin') {
-            currentUser = await this.adminsService.findById(id)
-        }
+        const {id} = verifiedToken;
+        const currentUser = await this.usersService.findById(id)
 
         request['user'] = currentUser;
       } catch (error) {

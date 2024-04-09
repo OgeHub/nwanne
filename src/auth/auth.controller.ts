@@ -1,8 +1,6 @@
-import { Body, Controller, Post, HttpCode, HttpStatus, UseGuards, Request, Get } from '@nestjs/common';
+import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAdminDto } from '../admins/create-admin.dto'
 import { CreateUserDto, LoginDto } from '../users/create-user.dto'
-import { AuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -10,18 +8,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('users/sign-up')
- async signUpUser(@Body() createUserDto: CreateUserDto) {
-  await this.authService.sighUpUser(createUserDto);
-    return {
-      status: 'success',
-      message: 'Sign-up successful'
-    };
-  }
-
-  @HttpCode(HttpStatus.OK)
-  @Post('admins/sign-up')
-  async signUpAdmin(@Body() createAdminDto: CreateAdminDto) {
-   await this.authService.signUpAdmin(createAdminDto);
+ async signup(@Body() createUserDto: CreateUserDto) {
+  await this.authService.signup(createUserDto);
     return {
       status: 'success',
       message: 'Sign-up successful'
@@ -38,15 +26,4 @@ export class AuthController {
       accessToken
     }
   }
-
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    const user = req.user;
-    return {
-      status: 'success',
-      message: 'Profile retrieved successfully',
-      data: user
-    };
-}
 }
