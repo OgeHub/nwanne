@@ -8,8 +8,8 @@ import { CreateMessageDto } from './create-message.dto';
 export class MessagingService {
     constructor(@InjectModel(Message.name) private messageModel: Model<Message>) {}
 
-    async create(senderID: string, receiverID: string, message: CreateMessageDto["message"]): Promise<Message> {
-        const newMessage = new this.messageModel({senderID, receiverID, message});
+    async create(senderID: string,  message: CreateMessageDto["message"]): Promise<Message> {
+        const newMessage = new this.messageModel({senderID, message});
         return newMessage.save();
     }
 }
