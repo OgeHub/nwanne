@@ -6,7 +6,12 @@ import { UsersModule } from './users/users.module';
 import { MessagingModule } from './messaging/messaging.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, MongooseModule.forRoot(process.env.MONGO_URI), MessagingModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    MongooseModule.forRoot(process.env.MONGO_URI),
+    MessagingModule,
+  ],
   controllers: [],
 })
 export class AppModule {}
