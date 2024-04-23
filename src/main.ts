@@ -12,11 +12,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
-  .setTitle('Nwanne API')
-  .setDescription('API description for Nwanne application')
-  .setVersion('1.0')
-  .addTag('Endpoints')
-  .build();
+    .setTitle('Nwanne API')
+    .setDescription('API description for Nwanne application')
+    .setVersion('1.0')
+    .addTag('Endpoints')
+    .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 

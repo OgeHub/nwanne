@@ -6,10 +6,15 @@ import { CreateMessageDto } from './create-message.dto';
 
 @Injectable()
 export class MessagingService {
-    constructor(@InjectModel(Message.name) private messageModel: Model<Message>) {}
+  constructor(
+    @InjectModel(Message.name) private messageModel: Model<Message>,
+  ) {}
 
-    async create(senderID: string,  message: CreateMessageDto["message"]): Promise<Message> {
-        const newMessage = new this.messageModel({senderID, message});
-        return newMessage.save();
-    }
+  async create(
+    senderID: string,
+    message: CreateMessageDto['message'],
+  ): Promise<Message> {
+    const newMessage = new this.messageModel({ senderID, message });
+    return newMessage.save();
+  }
 }
